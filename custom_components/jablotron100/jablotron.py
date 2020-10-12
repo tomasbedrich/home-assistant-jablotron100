@@ -574,8 +574,18 @@ class Jablotron():
 	def _create_code_packet(self, code: str) -> bytes:
 		code_packet = b"\x80\x08\x03\x39\x39\x39"
 
-		for code_number in code:
-			code_packet += Jablotron._int_to_bytes(48 + int(code_number))
+		for i in range(0, 4):
+			j = i + 4
+
+			first_number = code[j:(j + 1)]
+			second_number = code[i:(i + 1)]
+
+			if first_number == "":
+				code_number = 48 + int(second_number)
+			else:
+				code_number = int(f"{first_number}{second_number}", 16)
+
+			code_packet += Jablotron._int_to_bytes(code_number)
 
 		return code_packet
 
