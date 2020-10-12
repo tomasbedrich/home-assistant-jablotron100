@@ -52,7 +52,7 @@ PACKET_READ_SIZE = 64
 # x0a registration code
 # x0b name of the installation
 JABLOTRON_PACKET_GET_MODEL = b"\x30\x01\x02"
-JABLOTRON_PACKET_GET_INFO = b"\x30\x01\x02\x30\x01\x08\x30\x01\x09"
+JABLOTRON_PACKET_GET_INFO = b"\x30\x01\x02\x30\x01\x03\x30\x01\x04\x30\x01\x05\x30\x01\x06\x30\x01\x07\x30\x01\x08\x30\x01\x09"
 JABLOTRON_PACKET_GET_SECTIONS_STATES = b"\x80\x01\x01\x52\x01\x0e"
 JABLOTRON_PACKET_SECTIONS_STATES_PREFIX = b"\x51\x22"
 JABLOTRON_PACKET_DEVICES_STATES_PREFIX = b"\xd8"
@@ -137,7 +137,7 @@ def check_serial_port(serial_port: str) -> None:
 		if model is None:
 			raise ModelNotDetected
 
-		if not re.match(r"^JA-10[136]", model):
+		if not re.match(r"JA-10[1367]", model):
 			raise ModelNotSupported("Model {} not supported".format(model))
 
 	except (IndexError, FileNotFoundError, IsADirectoryError, UnboundLocalError, OSError):
@@ -571,7 +571,7 @@ class Jablotron():
 		return code_packet
 
 	def _is_small_central_unit(self) -> bool:
-		return re.match(r"^JA-10[13]", self._central_unit.model) is not None
+		return re.match(r"JA-10[13]", self._central_unit.model) is not None
 
 	@staticmethod
 	def _is_device_state_packet(prefix) -> bool:
